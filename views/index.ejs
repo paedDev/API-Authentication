@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API authentication </title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>  
+     <button type="submit" id="noAuth" onclick="window.location.href='/noAuth'"> noAuth</button>   
+     <button type="submit" id="BasicAuth" onclick="window.location.href='/BasicAuth'"> BasicAuth</button>   
+     <button type="submit" id="apiKey" onclick="window.location.href='/apiKey'"> apiKey</button>   
+     <button type="submit" id="bearerToken" onclick="window.location.href='/bearerToken'"> bearerToken</button> 
+     
+     <div class="response-area">
+       <P><%= locals.content %> hellow</P>
+     </div>
+</body>
+</html>
