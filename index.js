@@ -15,10 +15,14 @@ const yourBearerToken = "";
 app.get("/", (req,res) => {
     res.render("index.ejs"), {
         content: "API response",
-    }
+    };
 })
-app.get("/noAuth", (req,res) =>{
-
+app.get("/noAuth", async (req,res) =>{
+    try {
+        const result = await axios.get(API_URL + "/random")
+    }catch{
+        res.status(404).send("Error:", error.message)
+    }
 })
 app.get("/BasicAuth", (req,res) =>{
     
