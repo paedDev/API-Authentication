@@ -6,10 +6,10 @@ const port = 3000;
 app.use(express.static("public"))
 
 const API_URL = "https://secrets-api.appbrewery.com/";
-const yourUsername = "";
-const yourPassword = "";
-const yourAPIKey = "";
-const yourBearerToken = "";
+const yourUsername = "jnpaed30";
+const yourPassword = "jnpaed30";
+const yourAPIKey = "myAPI";
+const yourBearerToken = "helloworld";
 
 
 app.get("/", (req,res) => {
@@ -20,20 +20,49 @@ app.get("/", (req,res) => {
 app.get("/noAuth", async (req,res) =>{
     try {
         const result = await axios.get(API_URL + "/random")
-    }catch{
-        res.status(404).send("Error:", error.message)
+    }catch(error){
+        res.status(404).send(error.message);
     }
 })
-app.get("/BasicAuth", (req,res) =>{
-    
+app.get("/BasicAuth", async (req,res) =>{
+    try{
+        const result = await axios.get(API_URL + "/all?page=2" ,{
+            auth :{
+                username: yourUsername,
+                password: yourPassword,       
+            },
+        });
+    }catch(error){
+        res.status(404).send(error.message);
+    }
 })
-app.get("/apiKey", (req,res) =>{
-    
+app.get("/apiKey",async (req,res) =>{
+    try{
+        const result = await axios.get(API_URL + "/filter", {
+            params :{
+                score : 5,
+                apiKey: yourAPIKey,
+            },
+        });
+        res.render("index.ejs", { content: JSON.stringify(result.data) });
+    }catch(error){
+        res.status(404).send(error.message);
+    }
 })
-app.get("/bearerToken", (req,res) =>{
-    
-})
-app.listen(port,() =>{
-    console.log(`Server listening to ${port}`);
-    
-})
+const config = {
+    headers: { Authorization: `Bearer ${yourBearerToken}` },
+  };
+  
+  app.get("/bearerToken", async (req, res) => {
+    try {
+      const result = await axios.get(API_URL + "/secrets/2", config);
+      res.render("index.ejs", { content: JSON.stringify(result.data) });
+    } catch (error) {
+      res.status(404).send(error.message);
+    }
+  });
+  
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+  
